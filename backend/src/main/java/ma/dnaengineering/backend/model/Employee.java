@@ -1,16 +1,14 @@
 package ma.dnaengineering.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Data
 @Table(name="EMP-SYSTEM")
 public class Employee {
     @Id
