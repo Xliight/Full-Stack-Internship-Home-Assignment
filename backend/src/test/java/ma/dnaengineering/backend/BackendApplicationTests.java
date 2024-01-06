@@ -39,8 +39,7 @@ class BackendApplicationTests {
 
 
 	@Test
-	void testProcessCSVAndSaveEmployee() throws IOException {
-		// Mock CSV content for testing
+	void testProcessCSV() throws IOException {
 		String csvContent = "id,employee_name,job_title,salary\n1,John,Developer,5000.0\n2,Jane,Manager,7000.0";
 		BufferedReader bufferedReader = new BufferedReader(new StringReader(csvContent));
 
@@ -50,7 +49,7 @@ class BackendApplicationTests {
 
 		List<Employee> employees = empService.ProcessCSV();
 
-		// Verify the result
+
 		assertEquals(2, employees.size());
 		assertEquals("John", employees.get(0).getEmployeeName());
 		assertEquals("Manager", employees.get(1).getJobTitle());
