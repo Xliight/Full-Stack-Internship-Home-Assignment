@@ -23,7 +23,7 @@ public class EmpService {
     private EmpRepo employeeRepository;
 
 
-    private String csvFilePath="data/employees.csv";
+    private String csvFilePath="C:\\Users\\Xlight\\Desktop\\Full-Stack-Internship-Home-Assignment\\data\\employees.csv";
 
     private Employee mapToEmployee(String line) {
         String[] fields = line.split(",");
