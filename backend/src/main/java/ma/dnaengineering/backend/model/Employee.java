@@ -3,6 +3,8 @@ package ma.dnaengineering.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.File;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +21,8 @@ public class Employee {
     private String jobTitle;
 
     private double salary;
+
+
 
 
     public Employee(String employeeName, String jobTitle, double salary) {

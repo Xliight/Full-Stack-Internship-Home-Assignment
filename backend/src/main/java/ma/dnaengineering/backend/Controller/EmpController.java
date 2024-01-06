@@ -1,9 +1,13 @@
 package ma.dnaengineering.backend.Controller;
 
 import ma.dnaengineering.backend.Services.EmpService;
+import ma.dnaengineering.backend.Services.FileService;
 import ma.dnaengineering.backend.model.Employee;
+import ma.dnaengineering.backend.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +20,9 @@ public class EmpController {
 
     @Autowired
     private EmpService employeeService;
+
+    @Autowired
+    private FileService fileService;
 
     @PostMapping("/SaveEmployees")
     public String processCSV() {
@@ -37,4 +44,25 @@ public class EmpController {
         return employeeService.getAverageSalaryByJobTitle();
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            fileService.saveFile(file.getOriginalFilename(), file);
+            return ResponseEntity.ok("File uploaded successfully!");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{fileId}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable Long fileId) {
+        File fileEntity = fileService.getFile(fileId);
+        if (fileEntity != null) {
+            return ResponseEntity.ok()
+                    .header("Content-Disposition", "attachment; filename=" + fileEntity.getName())
+                    .body(fileEntity.getContent());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
