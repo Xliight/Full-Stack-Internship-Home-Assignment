@@ -3,10 +3,7 @@ package ma.dnaengineering.backend.Controller;
 import ma.dnaengineering.backend.Services.EmpService;
 import ma.dnaengineering.backend.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,9 +17,19 @@ public class EmpController {
     @Autowired
     private EmpService employeeService;
 
+    @PostMapping("/SaveEmployees")
+    public String processCSV() {
+        try {
+            employeeService.ProcessCSV();
+            return "CSV processing successful";
+        } catch (IOException e) {
+            return "Error processing CSV: " + e.getMessage();
+        }
+    }
+
     @GetMapping("/AllEmployees")
     public List<Employee> getAllEmployees() throws IOException {
-        return employeeService.ProcessCSV();
+        return employeeService.getAllEmployees();
     }
 
     @GetMapping("/AverageSalaryByJob")

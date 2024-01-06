@@ -32,14 +32,16 @@ public class EmpService {
         double salary = Double.parseDouble(fields[3].replace(",", ""));
         return new Employee(employeeName, jobTitle, salary);
     }
-    public List<Employee> ProcessCSV() throws IOException {
+    public void ProcessCSV() throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
-            return br.lines()
+            br.lines()
                     .skip(1) // Skip header
                     .map(this::mapToEmployee)
-                    .peek(employeeRepository::save) // Save to the database
-                    .collect(Collectors.toList());
+                    .forEach(employeeRepository::save); // Save to the database
         }
+    }
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 
     public Map<String, Double> getAverageSalaryByJobTitle() {
