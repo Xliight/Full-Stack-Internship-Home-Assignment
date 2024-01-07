@@ -25,6 +25,7 @@ public class EmpController {
     @Autowired
     private FileService fileService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/SaveEmployees")
     public ResponseEntity<String> processCSV() {
         try {
@@ -38,17 +39,17 @@ public class EmpController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing CSV: " + e.getMessage());
         }
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/AllEmployees")
     public List<Employee> getAllEmployees() throws IOException {
         return employeeService.getAllEmployees();
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/AverageSalaryByJob")
     public Map<String, Double> getAverageSalaryByJobTitle() {
         return employeeService.getAverageSalaryByJobTitle();
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
