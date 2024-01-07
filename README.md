@@ -59,4 +59,27 @@ Respect the following design flow:
 
 ## Bonus points
 - Implement your own CSV file parser instead of using a library.
-- Use design patterns.
+- Use design patterns. 
+
+Install dependencies.
+npm install
+
+Run the React application.
+npm start
+
+The application will be accessible at http://localhost:3000.
+
+Running the Spring Boot Project
+Open a terminal and navigate to the spring-boot-app directory.
+cd spring-boot-app
+
+Run the Spring Boot application using Maven.
+mvn spring-boot:run
+The application will start, and you can access it at http://localhost:8080.
+
+Tests
+Run tests using the following command:
+
+bash
+Copy code
+mvn test
