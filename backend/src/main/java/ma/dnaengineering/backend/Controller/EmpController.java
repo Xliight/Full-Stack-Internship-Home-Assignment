@@ -5,6 +5,7 @@ import ma.dnaengineering.backend.Services.FileService;
 import ma.dnaengineering.backend.model.Employee;
 import ma.dnaengineering.backend.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,12 +26,16 @@ public class EmpController {
     private FileService fileService;
 
     @PostMapping("/SaveEmployees")
-    public String processCSV() {
+    public ResponseEntity<String> processCSV() {
         try {
-            employeeService.ProcessCSV();
-            return "CSV processing successful";
+            if (employeeService.employeesAlreadySaved()) {
+                return ResponseEntity.status(HttpStatus.OK).body("Employees already saved");
+            } else {
+                employeeService.ProcessCSV();
+                return ResponseEntity.status(HttpStatus.OK).body("CSV processing successful");
+            }
         } catch (IOException e) {
-            return "Error processing CSV: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing CSV: " + e.getMessage());
         }
     }
 
@@ -54,15 +59,4 @@ public class EmpController {
         }
     }
 
-    @GetMapping("/{fileId}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable Long fileId) {
-        File fileEntity = fileService.getFile(fileId);
-        if (fileEntity != null) {
-            return ResponseEntity.ok()
-                    .header("Content-Disposition", "attachment; filename=" + fileEntity.getName())
-                    .body(fileEntity.getContent());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

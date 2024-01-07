@@ -21,8 +21,6 @@ public class EmpService {
 
     @Autowired
     private EmpRepo employeeRepository;
-
-
     private String csvFilePath="C:\\Users\\Xlight\\Desktop\\Full-Stack-Internship-Home-Assignment\\data\\employees.csv";
 
     private Employee mapToEmployee(String line) {
@@ -37,7 +35,7 @@ public class EmpService {
             br.lines()
                     .skip(1) // Skip header
                     .map(this::mapToEmployee)
-                    .forEach(employeeRepository::save); // Save to the database
+                    .forEach(employeeRepository::save);
         }
     }
     public List<Employee> getAllEmployees() {
@@ -50,7 +48,9 @@ public class EmpService {
                         Collectors.averagingDouble(Employee::getSalary)));
     }
 
-
+    public boolean employeesAlreadySaved() {
+        return employeeRepository.count() > 0;
+    }
 
 
 }
